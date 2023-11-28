@@ -1,11 +1,16 @@
 import psycopg2
+import psqlConfig
+import dummydata
 
-
-conn = psycopg2.connect(dbname="", 
-                            user="tbd", 
-                            host = 'tbd', 
-                            port = 1234, 
-                            password="tbd")
+conn = None
+try:
+    conn = psycopg2.connect(dbname="", 
+                            user= psqlConfig.username, 
+                            host = "localhost", 
+                            port = 7777, 
+                            password= psqlConfig.password)
+except(Exception, psycopg2.Error) as error:
+            print("Error connecting to PostgreSQL", error) 
 
 #Creates a cursor 
 cur = conn.cursor()
@@ -26,3 +31,8 @@ def select_data(table, column, id):
     cur.execute(query) 
     result = cur.fetchall
     return result
+
+if __name__ == "__main__":
+      dummydata.createDataInUsers()
+      dummydata.createDataInListings()
+      print(select_data("listings", "title", "lamp"))
