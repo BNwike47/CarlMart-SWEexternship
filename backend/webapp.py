@@ -1,18 +1,19 @@
 from flask import Flask, jsonify, request
 import psycopg2
-import functionality
+# import functionality
 
+app = Flask(__name__)
 
-app = Flask(__name__, 
-        static_url_path='/static',
-        static_folder='static',
-        template_folder='templates')
+# app = Flask(__name__, 
+#         static_url_path='/static',
+#         static_folder='static',
+#         template_folder='templates')
 
 @app.route('/')
 @app.route('/home')
 def homepage():
     #return render_template('home.html')
-    return
+    return {"home": ["backend info 1", "backend info 2", "backend info 3"]}
 
 @app.route('/item')
 def create_item_listing():
@@ -25,4 +26,4 @@ def user_profile(username):
     return
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
