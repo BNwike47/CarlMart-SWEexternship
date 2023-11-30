@@ -2,16 +2,22 @@ from flask import Flask, jsonify, request
 import psycopg2
 import functionality
 
-app = Flask(__name__, 
-        static_url_path='/static',
-        static_folder='static',
-        template_folder='templates')
+app = Flask(__name__)
 
 @app.route('/')
 @app.route('/home')
 def homepage():
     #return render_template('home.html')
     return {"home": ["backend info 1", "backend info 2", "backend info 3"]}
+
+@app.route('/home', methods=["GET"])
+def display_data():
+    data = request.get_json()
+    print("This is the data that Hannah sent: ")
+    for key in data:
+        print(key + ": " + data[key])
+    #return render_template('home.html')
+    return
 
 @app.route('/new_item', methods=["POST"])
 def create_item_listing():
