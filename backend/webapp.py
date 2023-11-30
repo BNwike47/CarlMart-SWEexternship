@@ -1,13 +1,11 @@
 from flask import Flask, jsonify, request
 import psycopg2
-# import functionality
+import functionality
 
-app = Flask(__name__)
-
-# app = Flask(__name__, 
-#         static_url_path='/static',
-#         static_folder='static',
-#         template_folder='templates')
+app = Flask(__name__, 
+        static_url_path='/static',
+        static_folder='static',
+        template_folder='templates')
 
 @app.route('/')
 @app.route('/home')
@@ -29,7 +27,7 @@ def create_item_listing():
     return
 
 @app.route('/new_user', methods=["POST"])
-def create_item_listing():
+def create_user():
     data = request.get_json()
     data_list = []
     for key in data:
