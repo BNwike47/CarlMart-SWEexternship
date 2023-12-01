@@ -46,35 +46,31 @@ function App() {
   return (
     <>
       <div>
-
           {(typeof data.home === 'undefined') ? (
             <p>Loading...</p>
           ) : (
             data.home.map((unit, i) => (
-              <p key={i}> {unit} </p>
+              <p key={i}> Title: {unit[0]}, Description: {unit[1]}, Price: {unit[2]}, Contact: {unit[3]} </p>
             ))
           )}
-
       </div>
 
       <form>
-      <label>
-        Test text data:
-        <input type="text" name="name" />
-      </label>
-      <input type="submit" value="Submit" />
+        <label>
+          Test text data:
+          <input type="text" name="name" />
+        </label>
+        <input type="submit" value="Send data to backend" />
       </form>
 
       <div onClick={handleClick} style={{
-      textAlign: 'center',
-      width: '100px',
-      border: '1px solid gray',
-      borderRadius: '5px'
-    }}>
-      Send data to backend
-    </div>
-
-      </>
+        textAlign: 'center',
+        width: '100px',
+        border: '1px solid gray',
+        borderRadius: '5px'
+        }}>
+      </div>
+    </>
   )
 }
 

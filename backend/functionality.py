@@ -9,6 +9,7 @@ DB_PORT = "5432"
 
 conn = None
 
+#creates a connection to the database
 def connect():
     try:
         global conn
@@ -24,6 +25,7 @@ def connect():
         print("Error connecting to PostgreSQL", error) 
         return 
     
+#creating the tables in the database if they don't exist
 def create_tables():
     """Creates SQL table. Restarts docker container if SQL hasn't initialized yet."""
     cur, conn = connect()
@@ -60,17 +62,32 @@ def create_tables():
         raise ConnectionError('PostgresSQL rejected connection. Trying again')
     return
 
+#inserting some data into the database
 def create_data():
     query = "INSERT INTO listings (listing, title, description, price, contact) SELECT 'laz1129231230', 'calculus textbook', 'Fundamentals of Calculus 9th edition', 50, 'laz@carleton.edu' WHERE NOT EXISTS (SELECT listing FROM listings WHERE listing = 'laz1129231230')"
-    # query1 = "INSERT INTO users (username, listings, rating) VALUES ('laz', 'laz1129231230', 5.0);"
-    # query2 = "INSERT INTO users (username, rating) VALUES ('nwikeb', 5.0);"
-    # query3 = "INSERT INTO users (username, listings, rating) VALUES ('moranh', 'moranh1130230500', 5.0);"
-    # query4 = "INSERT INTO listings (listing, title, description, price, contact) VALUES ('moranh1130231045', 'leather couch', 'gently used black leather couch', 30, 'moranh@carleton.edu');"
+    query1 = "INSERT INTO users (username, listings, rating) SELECT 'laz', 'laz1129231230', 5.0 WHERE NOT EXISTS (SELECT username FROM users WHERE username = 'laz')"
+    query2 = "INSERT INTO users (username, rating) SELECT 'nwikeb', 5.0 WHERE NOT EXISTS (SELECT username FROM users WHERE username = 'nwikeb')"
+    query3 = "INSERT INTO users (username, listings, rating) SELECT 'moranh', 'moranh1130230500', 5.0 WHERE NOT EXISTS (SELECT username FROM users WHERE username = 'moranh')"
+    query4 = "INSERT INTO listings (listing, title, description, price, contact) SELECT 'moranh1130231045', 'leather couch', 'gently used black leather couch', 30, 'moranh@carleton.edu' WHERE NOT EXISTS (SELECT listing FROM listings WHERE listing = 'moranh1130231045')"    
+    query5 = "INSERT INTO listings (listing, title, description, price, contact) SELECT 'nwikeb1201231500', 'bike', 'good condition', 200, 'nwikeb@carleton.edu' WHERE NOT EXISTS (SELECT listing FROM listings WHERE listing = 'nwikeb1201231500')"    
+    query6 = "INSERT INTO listings (listing, title, price, contact) SELECT 'quinns0112230950', 'black sweater', 0, 'quinns@carleton.edu'  WHERE NOT EXISTS (SELECT listing FROM listings WHERE listing = 'quinns0112230950')"
+
+    queries = [query, query1, query2, query3, query4, query5, query6]
     cur, conn = connect()
-    cur.execute(query)
+    for query in queries:
+        cur.execute(query)
     conn.commit()
     cur.close()
     conn.close()
+
+# def create_data():
+#     query = "INSERT INTO listings (listing, title, price, contact) SELECT 'quinns0112230950', 'black sweater', 0, 'quinns@carleton.edu'  WHERE NOT EXISTS (SELECT listing FROM listings WHERE listing = 'quinns0112230950')"
+#     cur, conn = connect()
+#     cur.execute(query)
+#     conn.commit()
+#     cur.close()
+#     conn.close()
+
 #grabs a specific column list from the specifed table.  
 #Returns a list of tuples
 def select_query(table, column):
@@ -106,9 +123,10 @@ def insert_row(table, data):
     conn.close()
     return
 
+#gets information (title, description, price, contact) from all entries in the listings table
 def select_all_listings():
     cur, conn = connect()
-    query = 'SELECT * FROM "listings";'
+    query = 'SELECT title, description, price, contact FROM "listings";'
     result = "no result yet"
     try:
         cur.execute(query) 
