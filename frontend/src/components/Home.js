@@ -60,7 +60,7 @@ function App() {
           Test text data:
           <input type="text" name="name" />
         </label>
-        <input type="submit" value="Send data to backend" />
+        <input type="submit" value="submit" />
       </form>
 
       <div onClick={handleClick} style={{
@@ -70,6 +70,7 @@ function App() {
         borderRadius: '5px'
         }}>
       </div>
+      Send data to backend
     </>
   )
 }
