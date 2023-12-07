@@ -18,6 +18,8 @@ const ListingModal = ({ listing, onClose }) => {
         <h2>{listing[0]}</h2>
         <p>Price: ${listing[2]}</p>
         <p>Description: {listing[1]}</p>
+        <p>Category: {listing[5]}</p>
+        <p>Description: {listing[6]}</p>
         <p>Contact: {listing[3]}</p>
         <button onClick={onClose}>Close</button>
       </div>
@@ -25,14 +27,6 @@ const ListingModal = ({ listing, onClose }) => {
   );
 };
 
-// const imageMap = {
-//   cactusImage: cactusImage,
-//   calcImage: calcImage,
-//   lampImage: lampImage,
-//   switchImage: switchImage,
-//   beanImage: beanImage,
-//   padImage: padImage,
-// };
 
 function Home() {
 

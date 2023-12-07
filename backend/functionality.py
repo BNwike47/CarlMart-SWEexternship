@@ -41,7 +41,8 @@ def create_tables():
                 price int,
                 contact varchar(50),
                 image text,
-                tags text
+                category text,
+                condition text
             );
         """)
 
@@ -148,14 +149,14 @@ def create_new_listing(data, cloudinaryConfig):
     data_list = []
     columns = "("
     for key in data:
-            if key == 'image':
-                validation = validateSignature(data['image'], cloudinaryConfig)
-                if validation:
-                    data_list.append(validation)
-                    columns += key + ", "
-            elif data[key] != '':
-                data_list.append(data[key])
+        if key == 'image' and data[key] is not None:
+            validation = validateSignature(data['image'], cloudinaryConfig)
+            if validation:
+                data_list.append(validation)
                 columns += key + ", "
+        elif data[key] != '' and data[key] is not None:
+            data_list.append(data[key])
+            columns += key + ", "
     columns += "listing)"
     listing_id = create_listing_id("quinns")
     data_list.append(listing_id)
