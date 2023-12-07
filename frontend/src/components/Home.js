@@ -35,7 +35,7 @@ function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState(null);
   const navigate = useNavigate();
-
+  const [sort, setSort] = useState('');
   const [data, setData] = useState([{}])
 
   useEffect(() => {
@@ -68,6 +68,56 @@ function Home() {
   const handleNavigateToAboutUs = () => {
     navigate('/about-us'); // Replace '/signup' with your actual sign-up route
   };
+
+  const handleSubmit = async () => {
+
+    // Sort the listings
+    console.log(sort)
+    const sortResponse = await fetch('/sort', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        sort: sort,
+      }),
+    });
+
+    if (!sortResponse.ok) {
+      throw new Error('Error sorting listings');
+    }
+    const sortData = await sortResponse.json();
+
+    // Reload the home page with the sorted listings
+    const homeResponse = await fetch('/home', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        sort: sortData['sort'],
+      }),
+    });
+
+    if (!homeResponse.ok) {
+      throw new Error('Error fetching home page data');
+    }
+
+    // Handle the response as needed
+    const homeData = await homeResponse.json();
+    setData(homeData);
+    console.log('Home Page Response:', homeData);
+  };
+
+  useEffect(() => {
+    // This useEffect will run whenever the 'sort' state changes
+    console.log('Updated sort:', sort);
+    if (sort !== '') {
+      handleSubmit();
+    }
+  }, [sort]);
 
   return (
     <div className="home-container">
@@ -106,6 +156,18 @@ function Home() {
 
       <section className="new-listings">
         <h2>New Listings</h2>
+        <div>
+            <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            >
+              <option value="">Sort Results</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="date-asc">Date Posted: Oldest to Newest</option>
+              <option value="date-desc">Date Posted: Newest to Oldest</option>
+            </select>
+        </div>
         <div className="new-listings-grid">
           
           {(typeof data.home === 'undefined') ? (
