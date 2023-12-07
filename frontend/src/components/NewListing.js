@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import './NewListing.css'; 
 import Axios from 'axios';
+import Select from "react-select";
 
 function NewListing() {
   const [showCategories, setShowCategories] = useState(false);
-  const categories = ['Books', 'Electronics', 'Clothing', 'Furniture', 'Plants', 'Transportation', 'Other'];
+  const categories = [{value: 'books', label: 'Books'}, {value: 'electronics', label: 'Electronics'}, {value: 'clothing', label: 'Clothing'}, {value: 'furniture', label:'Furniture'}, {value: 'plants', label: 'Plants'}, {value: 'transportation', label: 'Transporation'}, {value: 'other', label: 'Other'}];
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -91,18 +92,22 @@ function NewListing() {
 
         {/* Categories Dropdown */}
         <div className="categories">
-          <button onClick={() => setShowCategories(!showCategories)}>
+          <Select 
+          isMulti={true}
+          options={categories}
+          placeholder="Select Categories..." 
+          onClick={() => setShowCategories(!showCategories)}>
             <div className="hamburger-icon">
               <div></div>
               <div></div>
               <div></div>
             </div>
             Categories
-          </button>
+          </Select>
           {showCategories && (
             <div className="dropdown-content">
               {categories.map((category, index) => (
-                <div key={index} onClick={() => console.log(category)}>{category}</div>
+                <div key={index} onClick={() => console.log(category)}>{category.label}</div>
               ))}
             </div>
           )}

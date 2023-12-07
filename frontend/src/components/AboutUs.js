@@ -7,6 +7,7 @@ import switchImage from '../dummy/nintendo.jpg'
 import beanImage from '../dummy/beanbag.jpg'
 import padImage from '../dummy/ipad.jpg'
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 
 const ListingModal = ({ listing, onClose }) => {
@@ -37,7 +38,7 @@ const imageMap = {
 function AboutUs() {
 
   const [showCategories, setShowCategories] = useState(false);
-  const categories = ['Books', 'Electronics', 'Apparel', 'Furniture', 'Toys'];
+  const categories = [{value: 'books', label: 'Books'}, {value: 'electronics', label: 'Electronics'}, {value: 'apparel', label: 'Apparel'}, {value: 'furniture', label:'Furniture'}, {value: 'toys', label: 'Toys'}];
   const navigate = useNavigate();
   const devInfo = [['Barry', 'CS student at Carleton'], ['Hannah', 'Another CS student at Carleton'], ['Sophie','Yet another CS student at Carleton'], ['Zoey','And another CS student at Carleton']];
   //const devInfo = ['CS student at Carleton', 'Another CS student at Carleton', 'Yet another CS student at Carleton', 'And another CS student at Carleton'];
@@ -50,25 +51,33 @@ function AboutUs() {
     navigate('/about-us'); // Replace '/signup' with your actual sign-up route
   };
 
+  const handleNavigateToHome = () => {
+    navigate('/'); // Replace '/signup' with your actual sign-up route
+  };
+
   return (
     <div className="home-container">
       <header className="header">
-        <div className="nav-logo">CarlMart</div>
+        <div className="nav-logo" onClick={handleNavigateToHome} >CarlMart</div>
 
         {/* Categories Dropdown */}
         <div className="categories">
-          <button onClick={() => setShowCategories(!showCategories)}>
+          <Select 
+          isMulti={true}
+          options={categories}
+          placeholder="Select Categories..." 
+          onClick={() => setShowCategories(!showCategories)}>
             <div className="hamburger-icon">
               <div></div>
               <div></div>
               <div></div>
             </div>
             Categories
-          </button>
+          </Select>
           {showCategories && (
             <div className="dropdown-content">
               {categories.map((category, index) => (
-                <div key={index} onClick={() => console.log(category)}>{category}</div>
+                <div key={index} onClick={() => console.log(category)}>{category.label}</div>
               ))}
             </div>
           )}

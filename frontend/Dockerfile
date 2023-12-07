@@ -8,6 +8,8 @@ RUN npm install
 RUN npm install react-router-dom
 RUN npm i @cloudinary/url-gen @cloudinary/react
 RUN npm install axios
+RUN npm i react-select
+RUN npm install @mui/icons-material
 
 COPY . .
 

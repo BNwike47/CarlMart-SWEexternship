@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
+import Select from "react-select";
 // import cactusImage from '../dummy/cactus.jpg';
 // import calcImage from '../dummy/calc.jpg';
 // import lampImage from '../dummy/lamp.webp';
@@ -7,6 +8,7 @@ import './Home.css';
 // import beanImage from '../dummy/beanbag.jpg'
 // import padImage from '../dummy/ipad.jpg'
 import { useNavigate } from "react-router-dom";
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 const ListingModal = ({ listing, onClose }) => {
@@ -27,16 +29,16 @@ const ListingModal = ({ listing, onClose }) => {
   );
 };
 
-
 function Home() {
 
   const [showCategories, setShowCategories] = useState(false);
-  const categories = ['Books', 'Electronics', 'Apparel', 'Furniture', 'Toys'];
+  const categories = [{value: 'books', label: 'Books'}, {value: 'electronics', label: 'Electronics'}, {value: 'apparel', label: 'Apparel'}, {value: 'furniture', label:'Furniture'}, {value: 'toys', label: 'Toys'}];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState(null);
   const navigate = useNavigate();
   const [sort, setSort] = useState('');
   const [data, setData] = useState([{}])
+
 
   useEffect(() => {
     fetch("/home").then(
@@ -47,7 +49,9 @@ function Home() {
         console.log(data)
       }
     )
-  }, [])
+  }, []);
+  
+
 
   // Function to open the modal with the listing details
   const openModal = (listing) => {
@@ -126,23 +130,28 @@ function Home() {
 
         {/* Categories Dropdown */}
         <div className="categories">
-          <button onClick={() => setShowCategories(!showCategories)}>
+          <Select 
+          isMulti={true}
+          options={categories}
+          placeholder="Select Categories..." 
+          onClick={() => setShowCategories(!showCategories)}>
             <div className="hamburger-icon">
               <div></div>
               <div></div>
               <div></div>
             </div>
             Categories
-          </button>
+          </Select>
           {showCategories && (
             <div className="dropdown-content">
               {categories.map((category, index) => (
-                <div key={index} onClick={() => console.log(category)}>{category}</div>
+                <div key={index} onClick={() => console.log(category)}>{category.label}</div>
               ))}
             </div>
           )}
         </div>
-      
+        
+    
         <input type="text" placeholder="Search..." className="search-bar" />
         <div className="nav-buttons">
           <button className="nav-item" onClick={handleNavToNewListing}>

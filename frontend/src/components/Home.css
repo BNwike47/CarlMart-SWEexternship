@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 html, body {
     margin: 0;
@@ -12,7 +13,6 @@ html, body {
   flex: 1;
   padding: 20px; /* Add padding as necessary */
 }
-
 
 .home-container {
   display: flex;
@@ -73,7 +73,7 @@ html, body {
   background: none;
   border: none;
   padding: 10px 15px;
-  margin: 0 5px;
+  margin: 5 px;
   font-size: 1.4rem;
   cursor: pointer;
   color: #000000;
